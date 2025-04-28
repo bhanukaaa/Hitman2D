@@ -1,0 +1,204 @@
+[gd_scene load_steps=12 format=3 uid="uid://c1o3qls0yq1kh"]
+
+[ext_resource type="Script" uid="uid://cxrrn2xj481ro" path="res://interaction/doubleDoorGrouper.gd" id="1_4a51u"]
+[ext_resource type="Script" uid="uid://copv3ahera502" path="res://interaction/doubleDoor.gd" id="1_kc78a"]
+[ext_resource type="Texture2D" uid="uid://dt52a5t7p0k5e" path="res://kenney/PNG/Tiles/tile_469.png" id="2_4a51u"]
+[ext_resource type="OccluderPolygon2D" uid="uid://b0q0mwcew0k7n" path="res://interaction/leftOccluder.tres" id="4_jklg0"]
+[ext_resource type="OccluderPolygon2D" uid="uid://1j0dyuj4xiod" path="res://interaction/rightOccluder.tres" id="5_jj4ok"]
+[ext_resource type="AudioStream" uid="uid://6xamaat4vrm2" path="res://kenney/Audio/doorClose_4.ogg" id="6_jj4ok"]
+[ext_resource type="AudioStream" uid="uid://4ryngwg845qc" path="res://kenney/Audio/doorOpen_1.ogg" id="7_6ekee"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0l87u"]
+size = Vector2(64, 28)
+
+[sub_resource type="Animation" id="Animation_jklg0"]
+resource_name = "close"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DoubleDoorGrouper/RightStaticBody:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2.92817, 1),
+"update": 0,
+"values": [3.05433, 0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DoubleDoorGrouper/LeftStaticBody:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2.82843, 1),
+"update": 0,
+"values": [-3.05433, 0.0]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DoubleDoorGrouper/RightStaticBody/LightOccluder2D:occluder")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_jj4ok")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("DoubleDoorGrouper/LeftStaticBody/LightOccluder2D:occluder")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("4_jklg0")]
+}
+tracks/4/type = "audio"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("DoubleDoorGrouper/AudioStreamPlayer2D")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("6_jj4ok")
+}],
+"times": PackedFloat32Array(0.5)
+}
+tracks/4/use_blend = true
+
+[sub_resource type="Animation" id="Animation_4a51u"]
+resource_name = "open"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("DoubleDoorGrouper/RightStaticBody:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [0.0, 3.05433]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("DoubleDoorGrouper/LeftStaticBody:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(2, 1),
+"update": 0,
+"values": [0.0, -3.05433]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("DoubleDoorGrouper/LeftStaticBody/LightOccluder2D:occluder")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("DoubleDoorGrouper/RightStaticBody/LightOccluder2D:occluder")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [null]
+}
+tracks/4/type = "audio"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("DoubleDoorGrouper/AudioStreamPlayer2D")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("7_6ekee")
+}],
+"times": PackedFloat32Array(0.0666667)
+}
+tracks/4/use_blend = true
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jklg0"]
+_data = {
+&"close": SubResource("Animation_jklg0"),
+&"open": SubResource("Animation_4a51u")
+}
+
+[node name="DoubleDoor" type="Node2D"]
+
+[node name="DoubleDoorGrouper" type="Node2D" parent="."]
+script = ExtResource("1_4a51u")
+metadata/open = false
+
+[node name="LeftStaticBody" type="StaticBody2D" parent="DoubleDoorGrouper"]
+collision_layer = 17
+script = ExtResource("1_kc78a")
+
+[node name="Sprite" type="Sprite2D" parent="DoubleDoorGrouper/LeftStaticBody"]
+position = Vector2(32, 14)
+texture = ExtResource("2_4a51u")
+region_enabled = true
+region_rect = Rect2(0, 18, 64, 28)
+
+[node name="CollisionShape" type="CollisionShape2D" parent="DoubleDoorGrouper/LeftStaticBody"]
+position = Vector2(32, 14)
+shape = SubResource("RectangleShape2D_0l87u")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="DoubleDoorGrouper/LeftStaticBody"]
+occluder = ExtResource("4_jklg0")
+
+[node name="RightStaticBody" type="StaticBody2D" parent="DoubleDoorGrouper"]
+position = Vector2(128, 0)
+scale = Vector2(-1, 1)
+collision_layer = 17
+script = ExtResource("1_kc78a")
+
+[node name="Sprite" type="Sprite2D" parent="DoubleDoorGrouper/RightStaticBody"]
+position = Vector2(32, 14)
+texture = ExtResource("2_4a51u")
+region_enabled = true
+region_rect = Rect2(0, 18, 64, 28)
+
+[node name="CollisionShape" type="CollisionShape2D" parent="DoubleDoorGrouper/RightStaticBody"]
+position = Vector2(32, 14)
+shape = SubResource("RectangleShape2D_0l87u")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="DoubleDoorGrouper/RightStaticBody"]
+occluder = ExtResource("5_jj4ok")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="DoubleDoorGrouper"]
+root_node = NodePath("../..")
+libraries = {
+&"": SubResource("AnimationLibrary_jklg0")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="DoubleDoorGrouper"]
+position = Vector2(64, 14)
+volume_db = -6.876
+
+[connection signal="animation_finished" from="DoubleDoorGrouper/AnimationPlayer" to="DoubleDoorGrouper" method="_on_animation_player_animation_finished"]

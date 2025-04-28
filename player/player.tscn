@@ -1,11 +1,80 @@
-[gd_scene load_steps=4 format=3 uid="uid://dqujghng2p3yl"]
+[gd_scene load_steps=17 format=3 uid="uid://dqujghng2p3yl"]
 
 [ext_resource type="Texture2D" uid="uid://igrc14e236ml" path="res://player/Hitman/hitman1_gun.png" id="1_oul6g"]
 [ext_resource type="Script" uid="uid://bp1wdiqr028ik" path="res://player/player.gd" id="1_rkbax"]
+[ext_resource type="AudioStream" uid="uid://dg6vljlufbpl1" path="res://kenney/Audio/footstep_wood_000.ogg" id="3_g6k8r"]
+[ext_resource type="AudioStream" uid="uid://kxxxikyf1mtg" path="res://kenney/Audio/footstep_wood_001.ogg" id="4_boad6"]
+[ext_resource type="AudioStream" uid="uid://dgci5g0jmpbyn" path="res://kenney/Audio/footstep_wood_002.ogg" id="5_rgyib"]
+[ext_resource type="AudioStream" uid="uid://c1mmx8xsd27x7" path="res://kenney/Audio/footstep_wood_003.ogg" id="6_hg6s5"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_oul6g"]
 radius = 14.0
 height = 44.0
+
+[sub_resource type="Animation" id="Animation_8t03j"]
+resource_name = "walk"
+loop_mode = 1
+tracks/0/type = "audio"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AudioStreamPlayer2D")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"clips": [{
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("3_g6k8r")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("4_boad6")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("5_rgyib")
+}, {
+"end_offset": 0.0,
+"start_offset": 0.0,
+"stream": ExtResource("6_hg6s5")
+}],
+"times": PackedFloat32Array(0, 0.233333, 0.5, 0.766667)
+}
+tracks/0/use_blend = true
+
+[sub_resource type="Animation" id="Animation_g6k8r"]
+resource_name = "idle"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_g1dw6"]
+_data = {
+&"idle": SubResource("Animation_g6k8r"),
+&"walk": SubResource("Animation_8t03j")
+}
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_g6k8r"]
+animation = &"idle"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_boad6"]
+animation = &"walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rgyib"]
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hg6s5"]
+advance_mode = 2
+advance_expression = "velocity.length() > 0"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_g6k8r"]
+advance_mode = 2
+advance_expression = "velocity.length() == 0"
+
+[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_boad6"]
+states/End/position = Vector2(200, 173)
+states/idle/node = SubResource("AnimationNodeAnimation_g6k8r")
+states/idle/position = Vector2(419, 100)
+states/walk/node = SubResource("AnimationNodeAnimation_boad6")
+states/walk/position = Vector2(419, 275)
+transitions = ["Start", "idle", SubResource("AnimationNodeStateMachineTransition_rgyib"), "idle", "walk", SubResource("AnimationNodeStateMachineTransition_hg6s5"), "walk", "idle", SubResource("AnimationNodeStateMachineTransition_g6k8r")]
 
 [node name="Player" type="CharacterBody2D"]
 motion_mode = 1
@@ -17,3 +86,20 @@ texture = ExtResource("1_oul6g")
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 position = Vector2(-9, 0)
 shape = SubResource("CapsuleShape2D_oul6g")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_g1dw6")
+}
+
+[node name="InteractionRayCast" type="RayCast2D" parent="."]
+target_position = Vector2(35, 0)
+collision_mask = 16
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+volume_db = -10.47
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationNodeStateMachine_boad6")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../AnimationPlayer")
