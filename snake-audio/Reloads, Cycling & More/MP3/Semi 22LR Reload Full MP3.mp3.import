@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b7o5cd01mjjgk"
+path="res://.godot/imported/Semi 22LR Reload Full MP3.mp3-816c58f2bc44b1c4a4322a341e0c7dbf.mp3str"
+
+[deps]
+
+source_file="res://snake-audio/Reloads, Cycling & More/MP3/Semi 22LR Reload Full MP3.mp3"
+dest_files=["res://.godot/imported/Semi 22LR Reload Full MP3.mp3-816c58f2bc44b1c4a4322a341e0c7dbf.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

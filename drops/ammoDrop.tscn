@@ -1,0 +1,62 @@
+[gd_scene load_steps=7 format=3 uid="uid://dk0rgeh71snxb"]
+
+[ext_resource type="Texture2D" uid="uid://b1jbm2ymhl6l3" path="res://kenney/PNG/Tiles/tile_318.png" id="1_ljds0"]
+[ext_resource type="Script" uid="uid://by0l5whkxd30w" path="res://drops/ammoDrop.gd" id="1_r1uwq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_r1uwq"]
+radius = 13.0
+
+[sub_resource type="Animation" id="Animation_r1uwq"]
+resource_name = "default"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(0.75, 0.75), Vector2(0.5, 0.5), Vector2(0.75, 0.75)]
+}
+
+[sub_resource type="Animation" id="Animation_u3dbr"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.75, 0.75)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ecjus"]
+_data = {
+&"RESET": SubResource("Animation_u3dbr"),
+&"default": SubResource("Animation_r1uwq")
+}
+
+[node name="AmmoDrop" type="StaticBody2D" groups=["pickups"]]
+collision_layer = 8
+collision_mask = 0
+script = ExtResource("1_r1uwq")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+scale = Vector2(0.75, 0.75)
+texture = ExtResource("1_ljds0")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_r1uwq")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ecjus")
+}
+autoplay = "default"

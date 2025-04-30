@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://dsbog6gousg0y"]
+[gd_scene load_steps=8 format=3 uid="uid://dsbog6gousg0y"]
 
 [ext_resource type="PackedScene" uid="uid://gycgro8uh1lt" path="res://maps/map.tscn" id="1_e2o6t"]
 [ext_resource type="PackedScene" uid="uid://dqujghng2p3yl" path="res://player/player.tscn" id="2_feb5d"]
+[ext_resource type="PackedScene" uid="uid://bkiob1w3x5shb" path="res://enemy/baseEnemy.tscn" id="3_feb5d"]
 
 [sub_resource type="Gradient" id="Gradient_e2o6t"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -23,20 +24,15 @@ fill_to = Vector2(0.82906, 0.162393)
 
 [node name="Map" parent="." instance=ExtResource("1_e2o6t")]
 
-[node name="Player" parent="." instance=ExtResource("2_feb5d")]
-z_index = 5
-position = Vector2(114, -1210)
-
-[node name="TopDownCamera" type="Camera2D" parent="Player"]
-position_smoothing_speed = 4.0
+[node name="Player" parent="." node_paths=PackedStringArray("ammoLabel") instance=ExtResource("2_feb5d")]
+position = Vector2(117, -1154)
+ammoLabel = NodePath("../HUD/AmmoLabel")
 
 [node name="Flashlight" type="PointLight2D" parent="Player"]
-visible = false
 position = Vector2(12, 9)
 rotation = -0.785398
 enabled = false
 energy = 0.79
-range_z_max = 20
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_feb5d")
 offset = Vector2(319, 318.96)
@@ -44,7 +40,6 @@ texture_scale = 10.0
 height = 30.0
 
 [node name="Spotlight" type="PointLight2D" parent="Player"]
-visible = false
 enabled = false
 energy = 0.32
 shadow_enabled = true
@@ -53,4 +48,29 @@ texture_scale = 5.0
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 visible = false
-color = Color(0.187176, 0.187176, 0.187176, 1)
+color = Color(0.0196078, 0.0196078, 0.0196078, 1)
+
+[node name="HUD" type="CanvasLayer" parent="."]
+
+[node name="AmmoLabel" type="Label" parent="HUD"]
+offset_left = 1750.0
+offset_top = 1014.0
+offset_right = 1919.0
+offset_bottom = 1081.0
+theme_override_font_sizes/font_size = 48
+text = "00 / 00"
+
+[node name="BaseEnemy" parent="." instance=ExtResource("3_feb5d")]
+position = Vector2(787, -1209)
+
+[node name="BaseEnemy2" parent="." instance=ExtResource("3_feb5d")]
+position = Vector2(1086, -818)
+
+[node name="BaseEnemy3" parent="." instance=ExtResource("3_feb5d")]
+position = Vector2(758, -2198)
+
+[node name="BaseEnemy4" parent="." instance=ExtResource("3_feb5d")]
+position = Vector2(1472, -1795)
+
+[node name="BaseEnemy5" parent="." instance=ExtResource("3_feb5d")]
+position = Vector2(2082, -1499)

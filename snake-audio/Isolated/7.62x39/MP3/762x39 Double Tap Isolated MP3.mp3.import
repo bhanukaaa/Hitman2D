@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://1vtx4kstjdkx"
+path="res://.godot/imported/762x39 Double Tap Isolated MP3.mp3-d3a0c81cb2e8876d4286e29931ec7f59.mp3str"
+
+[deps]
+
+source_file="res://snake-audio/Isolated/7.62x39/MP3/762x39 Double Tap Isolated MP3.mp3"
+dest_files=["res://.godot/imported/762x39 Double Tap Isolated MP3.mp3-d3a0c81cb2e8876d4286e29931ec7f59.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

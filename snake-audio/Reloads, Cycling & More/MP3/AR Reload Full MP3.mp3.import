@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://do3w03lrpewln"
+path="res://.godot/imported/AR Reload Full MP3.mp3-d37e4805b68c0ed217ace1964ecf2c52.mp3str"
+
+[deps]
+
+source_file="res://snake-audio/Reloads, Cycling & More/MP3/AR Reload Full MP3.mp3"
+dest_files=["res://.godot/imported/AR Reload Full MP3.mp3-d37e4805b68c0ed217ace1964ecf2c52.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

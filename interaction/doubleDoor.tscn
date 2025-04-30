@@ -2,14 +2,14 @@
 
 [ext_resource type="Script" uid="uid://cxrrn2xj481ro" path="res://interaction/doubleDoorGrouper.gd" id="1_4a51u"]
 [ext_resource type="Script" uid="uid://copv3ahera502" path="res://interaction/doubleDoor.gd" id="1_kc78a"]
-[ext_resource type="Texture2D" uid="uid://dt52a5t7p0k5e" path="res://kenney/PNG/Tiles/tile_469.png" id="2_4a51u"]
+[ext_resource type="Texture2D" uid="uid://cudrtlgoacxuv" path="res://kenney/PNG/Tiles/tile_473.png" id="3_pi3sm"]
 [ext_resource type="OccluderPolygon2D" uid="uid://b0q0mwcew0k7n" path="res://interaction/leftOccluder.tres" id="4_jklg0"]
 [ext_resource type="OccluderPolygon2D" uid="uid://1j0dyuj4xiod" path="res://interaction/rightOccluder.tres" id="5_jj4ok"]
 [ext_resource type="AudioStream" uid="uid://6xamaat4vrm2" path="res://kenney/Audio/doorClose_4.ogg" id="6_jj4ok"]
 [ext_resource type="AudioStream" uid="uid://4ryngwg845qc" path="res://kenney/Audio/doorOpen_1.ogg" id="7_6ekee"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0l87u"]
-size = Vector2(64, 28)
+size = Vector2(64, 18)
 
 [sub_resource type="Animation" id="Animation_jklg0"]
 resource_name = "close"
@@ -156,17 +156,18 @@ script = ExtResource("1_4a51u")
 metadata/open = false
 
 [node name="LeftStaticBody" type="StaticBody2D" parent="DoubleDoorGrouper"]
-collision_layer = 17
+collision_layer = 49
+collision_mask = 49
 script = ExtResource("1_kc78a")
 
 [node name="Sprite" type="Sprite2D" parent="DoubleDoorGrouper/LeftStaticBody"]
-position = Vector2(32, 14)
-texture = ExtResource("2_4a51u")
+position = Vector2(32, 9)
+texture = ExtResource("3_pi3sm")
 region_enabled = true
-region_rect = Rect2(0, 18, 64, 28)
+region_rect = Rect2(0, 23, 64, 18)
 
 [node name="CollisionShape" type="CollisionShape2D" parent="DoubleDoorGrouper/LeftStaticBody"]
-position = Vector2(32, 14)
+position = Vector2(32, 9)
 shape = SubResource("RectangleShape2D_0l87u")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="DoubleDoorGrouper/LeftStaticBody"]
@@ -175,17 +176,18 @@ occluder = ExtResource("4_jklg0")
 [node name="RightStaticBody" type="StaticBody2D" parent="DoubleDoorGrouper"]
 position = Vector2(128, 0)
 scale = Vector2(-1, 1)
-collision_layer = 17
+collision_layer = 49
+collision_mask = 49
 script = ExtResource("1_kc78a")
 
 [node name="Sprite" type="Sprite2D" parent="DoubleDoorGrouper/RightStaticBody"]
-position = Vector2(32, 14)
-texture = ExtResource("2_4a51u")
+position = Vector2(32, 9)
+texture = ExtResource("3_pi3sm")
 region_enabled = true
-region_rect = Rect2(0, 18, 64, 28)
+region_rect = Rect2(0, 23, 64, 18)
 
 [node name="CollisionShape" type="CollisionShape2D" parent="DoubleDoorGrouper/RightStaticBody"]
-position = Vector2(32, 14)
+position = Vector2(32, 9)
 shape = SubResource("RectangleShape2D_0l87u")
 
 [node name="LightOccluder2D" type="LightOccluder2D" parent="DoubleDoorGrouper/RightStaticBody"]
@@ -199,6 +201,6 @@ libraries = {
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="DoubleDoorGrouper"]
 position = Vector2(64, 14)
-volume_db = -6.876
+volume_db = -6.0
 
 [connection signal="animation_finished" from="DoubleDoorGrouper/AnimationPlayer" to="DoubleDoorGrouper" method="_on_animation_player_animation_finished"]

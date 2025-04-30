@@ -854,5 +854,6 @@ texture_region_size = Vector2i(64, 64)
 [resource]
 tile_size = Vector2i(64, 64)
 occlusion_layer_0/light_mask = 1
-physics_layer_0/collision_layer = 1
+physics_layer_0/collision_layer = 33
+physics_layer_0/collision_mask = 33
 sources/0 = SubResource("TileSetAtlasSource_ers5l")

@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://ccw3f3eldurmu"
+path="res://.godot/imported/762x54r Spray WAV.wav-65d7d0875dc71b985b4f659a8482a58f.sample"
+
+[deps]
+
+source_file="res://snake-audio/Full Sound/7.62x54R/WAV/762x54r Spray WAV.wav"
+dest_files=["res://.godot/imported/762x54r Spray WAV.wav-65d7d0875dc71b985b4f659a8482a58f.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

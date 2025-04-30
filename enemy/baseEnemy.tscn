@@ -1,0 +1,35 @@
+[gd_scene load_steps=5 format=3 uid="uid://bkiob1w3x5shb"]
+
+[ext_resource type="Texture2D" uid="uid://d00gvlmt1j43h" path="res://enemy/Man Blue/manBlue_gun.png" id="1_775g5"]
+[ext_resource type="Script" uid="uid://dyldp60i8jpwl" path="res://enemy/baseEnemy.gd" id="1_b45vm"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_775g5"]
+radius = 11.0
+height = 44.0
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r1b4x"]
+
+[node name="BaseEnemy" type="CharacterBody2D" groups=["enemy"]]
+z_index = 20
+collision_layer = 5
+collision_mask = 5
+motion_mode = 1
+script = ExtResource("1_b45vm")
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(10, 0)
+texture = ExtResource("1_775g5")
+
+[node name="CollisionShape" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_775g5")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_r1b4x")
+}
+
+[node name="WallDetectRayCast" type="RayCast2D" parent="."]
+target_position = Vector2(100, 0)
+collision_mask = 32
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer2D" parent="."]

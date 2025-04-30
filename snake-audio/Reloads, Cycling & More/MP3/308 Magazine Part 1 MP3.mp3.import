@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://bkvidb7mx1m2p"
+path="res://.godot/imported/308 Magazine Part 1 MP3.mp3-aadecdcb3130b27aa1aa46157511c891.mp3str"
+
+[deps]
+
+source_file="res://snake-audio/Reloads, Cycling & More/MP3/308 Magazine Part 1 MP3.mp3"
+dest_files=["res://.godot/imported/308 Magazine Part 1 MP3.mp3-aadecdcb3130b27aa1aa46157511c891.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

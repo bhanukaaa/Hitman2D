@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cv8s8ps0pp5lf"
+path="res://.godot/imported/Mosin Bolt Cycle MP3.mp3-528048790f7f0b2e1533a83e0a26d8f7.mp3str"
+
+[deps]
+
+source_file="res://snake-audio/Reloads, Cycling & More/MP3/Mosin Bolt Cycle MP3.mp3"
+dest_files=["res://.godot/imported/Mosin Bolt Cycle MP3.mp3-528048790f7f0b2e1533a83e0a26d8f7.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
