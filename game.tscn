@@ -29,6 +29,7 @@ position = Vector2(117, -1154)
 ammoLabel = NodePath("../HUD/AmmoLabel")
 
 [node name="Flashlight" type="PointLight2D" parent="Player"]
+visible = false
 position = Vector2(12, 9)
 rotation = -0.785398
 enabled = false
@@ -40,6 +41,7 @@ texture_scale = 10.0
 height = 30.0
 
 [node name="Spotlight" type="PointLight2D" parent="Player"]
+visible = false
 enabled = false
 energy = 0.32
 shadow_enabled = true
@@ -48,7 +50,7 @@ texture_scale = 5.0
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 visible = false
-color = Color(0.0196078, 0.0196078, 0.0196078, 1)
+color = Color(0.015625, 0.015625, 0.015625, 1)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -60,17 +62,20 @@ offset_bottom = 1081.0
 theme_override_font_sizes/font_size = 48
 text = "00 / 00"
 
-[node name="BaseEnemy" parent="." instance=ExtResource("3_feb5d")]
-position = Vector2(787, -1209)
+[node name="BaseEnemy1" parent="." instance=ExtResource("3_feb5d")]
+position = Vector2(539, -1250)
 
 [node name="BaseEnemy2" parent="." instance=ExtResource("3_feb5d")]
-position = Vector2(1086, -818)
+position = Vector2(996, -799)
 
 [node name="BaseEnemy3" parent="." instance=ExtResource("3_feb5d")]
-position = Vector2(758, -2198)
+position = Vector2(1680, -1474)
 
 [node name="BaseEnemy4" parent="." instance=ExtResource("3_feb5d")]
-position = Vector2(1472, -1795)
+position = Vector2(784, -2106)
 
 [node name="BaseEnemy5" parent="." instance=ExtResource("3_feb5d")]
-position = Vector2(2082, -1499)
+position = Vector2(1521, -2304)
+
+[node name="BaseEnemy6" parent="." instance=ExtResource("3_feb5d")]
+position = Vector2(1890, -1854)

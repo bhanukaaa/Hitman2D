@@ -6,48 +6,31 @@
 [ext_resource type="AudioStream" uid="uid://6erqhhacn17n" path="res://snake-audio/Reloads, Cycling & More/MP3/22LR Bolt Mag Reload Part 2 MP3.mp3" id="4_yw30f"]
 [ext_resource type="Texture2D" uid="uid://b6l0gplwe5l0k" path="res://player/Hitman/hitman1_reload.png" id="5_qjkh3"]
 
-[sub_resource type="Animation" id="Animation_yw30f"]
-resource_name = "shoot"
-length = 0.5
-step = 0.1
-tracks/0/type = "audio"
+[sub_resource type="Animation" id="Animation_g6k8r"]
+length = 0.001
+tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("WeaponAudio")
+tracks/0/path = NodePath("FiringRayCast/FiringLine:default_color")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"clips": [{
-"end_offset": 0.448328,
-"start_offset": 0.0204276,
-"stream": ExtResource("3_g1dw6")
-}],
-"times": PackedFloat32Array(0)
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0, 0.27451)]
 }
-tracks/0/use_blend = true
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("TopDownCamera:zoom")
+tracks/1/path = NodePath("FiringRayCast/FiringLine:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0.00687943, 0.0154538, 0.0429266, 0.0680244),
-"transitions": PackedFloat32Array(1, 1, 1, 1),
-"update": 0,
-"values": [Vector2(1, 1), Vector2(1.015, 1.015), Vector2(0.99, 0.99), Vector2(1, 1)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("FiringRayCast/FiringLine:default_color")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.0069515, 0.038016),
-"transitions": PackedFloat32Array(1, 1, 1),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [Color(1, 0, 0, 0.27451), Color(1, 0.745098, 0.133333, 0.760784), Color(1, 0, 0, 0.27451)]
+"values": [true]
 }
 
 [sub_resource type="Animation" id="Animation_qjkh3"]
@@ -104,31 +87,48 @@ tracks/3/keys = {
 "values": [true, false, true]
 }
 
-[sub_resource type="Animation" id="Animation_g6k8r"]
-length = 0.001
-tracks/0/type = "value"
+[sub_resource type="Animation" id="Animation_yw30f"]
+resource_name = "shoot"
+length = 0.5
+step = 0.1
+tracks/0/type = "audio"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("FiringRayCast/FiringLine:default_color")
+tracks/0/path = NodePath("WeaponAudio")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 0, 0, 0.27451)]
+"clips": [{
+"end_offset": 0.448328,
+"start_offset": 0.0204276,
+"stream": ExtResource("3_g1dw6")
+}],
+"times": PackedFloat32Array(0)
 }
+tracks/0/use_blend = true
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("FiringRayCast/FiringLine:visible")
+tracks/1/path = NodePath("TopDownCamera:zoom")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
+"times": PackedFloat32Array(0.00687943, 0.0154538, 0.0429266, 0.0680244),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.015, 1.015), Vector2(0.99, 0.99), Vector2(1, 1)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("FiringRayCast/FiringLine:default_color")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.0069515, 0.038016),
+"transitions": PackedFloat32Array(1, 1, 1),
 "update": 1,
-"values": [true]
+"values": [Color(1, 0, 0, 0.27451), Color(1, 0.745098, 0.133333, 0.760784), Color(1, 0, 0, 0.27451)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_g1dw6"]
@@ -149,7 +149,7 @@ point_count = 2
 radius = 14.0
 height = 44.0
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" groups=["player"]]
 z_index = 25
 collision_layer = 3
 motion_mode = 1
@@ -159,6 +159,8 @@ script = ExtResource("1_rkbax")
 libraries = {
 &"": SubResource("AnimationLibrary_g1dw6")
 }
+
+[node name="AudioListener" type="AudioListener2D" parent="."]
 
 [node name="PickupArea" type="Area2D" parent="."]
 collision_layer = 0
@@ -173,6 +175,7 @@ target_position = Vector2(64, 0)
 collision_mask = 16
 
 [node name="FiringRayCast" type="RayCast2D" parent="."]
+scale = Vector2(1.01411, 1)
 target_position = Vector2(1000, 0)
 
 [node name="FiringLine" type="Line2D" parent="FiringRayCast"]
@@ -188,13 +191,13 @@ volume_db = -6.0
 shape = SubResource("CapsuleShape2D_oul6g")
 debug_color = Color(0, 0.6, 0.701961, 0.772549)
 
-[node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(8, 0)
-texture = ExtResource("1_oul6g")
-
 [node name="TopDownCamera" type="Camera2D" parent="."]
 position_smoothing_enabled = true
 position_smoothing_speed = 4.0
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(8, 0)
+texture = ExtResource("1_oul6g")
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="body_entered" from="PickupArea" to="." method="_on_pickup_area_body_entered"]

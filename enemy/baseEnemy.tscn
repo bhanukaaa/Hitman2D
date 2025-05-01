@@ -1,13 +1,64 @@
-[gd_scene load_steps=5 format=3 uid="uid://bkiob1w3x5shb"]
+[gd_scene load_steps=11 format=3 uid="uid://bkiob1w3x5shb"]
 
 [ext_resource type="Texture2D" uid="uid://d00gvlmt1j43h" path="res://enemy/Man Blue/manBlue_gun.png" id="1_775g5"]
 [ext_resource type="Script" uid="uid://dyldp60i8jpwl" path="res://enemy/baseEnemy.gd" id="1_b45vm"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_775g5"]
-radius = 11.0
+radius = 12.0
 height = 44.0
 
+[sub_resource type="Animation" id="Animation_b45vm"]
+resource_name = "death"
+length = 0.25
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.233333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(0.025, 0.025)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.25),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"queue_free"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_r1b4x"]
+resource_name = "shoot"
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r1b4x"]
+_data = {
+&"death": SubResource("Animation_b45vm"),
+&"shoot": SubResource("Animation_r1b4x")
+}
+
+[sub_resource type="Gradient" id="Gradient_b45vm"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_r1b4x"]
+gradient = SubResource("Gradient_b45vm")
+
+[sub_resource type="Gradient" id="Gradient_r1b4x"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_3agur"]
+gradient = SubResource("Gradient_r1b4x")
 
 [node name="BaseEnemy" type="CharacterBody2D" groups=["enemy"]]
 z_index = 20
@@ -16,20 +67,62 @@ collision_mask = 5
 motion_mode = 1
 script = ExtResource("1_b45vm")
 
-[node name="Sprite" type="Sprite2D" parent="."]
-position = Vector2(10, 0)
-texture = ExtResource("1_775g5")
-
 [node name="CollisionShape" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_775g5")
+debug_color = Color(0.7, 0.240724, 0, 0.42)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_r1b4x")
 }
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer2D" parent="."]
+
 [node name="WallDetectRayCast" type="RayCast2D" parent="."]
 target_position = Vector2(100, 0)
 collision_mask = 32
 
-[node name="AudioStreamPlayer" type="AudioStreamPlayer2D" parent="."]
+[node name="PlayerDetectRayCast" type="RayCast2D" parent="."]
+collision_mask = 38
+
+[node name="PlayerDetectArea" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 2
+
+[node name="DetectionArea" type="CollisionPolygon2D" parent="PlayerDetectArea"]
+polygon = PackedVector2Array(0, 0, 100, -200, 500, -150, 600, 0, 500, 150, 100, 200)
+
+[node name="Sprite" type="Sprite2D" parent="."]
+position = Vector2(10, 0)
+texture = ExtResource("1_775g5")
+
+[node name="Static" type="Node2D" parent="."]
+top_level = true
+
+[node name="HPBar" type="TextureProgressBar" parent="Static"]
+z_index = 20
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -16.0
+offset_top = 25.0
+offset_right = 16.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+value = 100.0
+rounded = true
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture1D_r1b4x")
+texture_progress = SubResource("GradientTexture1D_3agur")
+tint_under = Color(1, 0, 0.274333, 1)
+tint_progress = Color(0.121033, 1, 0.127475, 1)
+
+[node name="RemoteTransform2D" type="RemoteTransform2D" parent="."]
+remote_path = NodePath("../Static")
+update_rotation = false
+
+[connection signal="body_entered" from="PlayerDetectArea" to="." method="_on_player_detect_area_body_entered"]
+[connection signal="body_exited" from="PlayerDetectArea" to="." method="_on_player_detect_area_body_exited"]

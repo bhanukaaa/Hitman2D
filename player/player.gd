@@ -7,28 +7,31 @@ extends CharacterBody2D
 @onready var animationPlayer: AnimationPlayer = $AnimationPlayer
 @onready var firingLine: Line2D = $FiringRayCast/FiringLine
 @onready var pickupArea: Area2D = $PickupArea
+@onready var audioListener: AudioListener2D = $AudioListener
 
-const SPEED: int = 300
+const MAX_SPEED: int = 300
 const ACCELERATION: int = 1000
 const DECELERATION: int = 500
 const ROTATION_SPEED: int = 8
 const MAX_LIVE_AMMO: int = 15
 
-
 const FOOTSTEP_SPEED_THRESHOLD: int = 200
 
-
 var liveAmmo: int = MAX_LIVE_AMMO
-var reserveAmmo: int = MAX_LIVE_AMMO * 3
+var reserveAmmo: int = MAX_LIVE_AMMO * 2
 var health: int = 100
 var shootCD: bool = false
 
 
-# Updaters ==============================
+# Initialization ========================
 
 func _ready() -> void:
+	assert(ammoLabel != null, "Player Export Variable AmmoLabel - Not Set")
+	audioListener.make_current()
 	updateAmmoLabel()
 
+
+# Updaters ==============================
 
 func _physics_process(delta: float) -> void:
 	# movement
@@ -39,7 +42,7 @@ func _physics_process(delta: float) -> void:
 
 	if inputV:
 		velocity = velocity.move_toward(
-			inputV * SPEED, ACCELERATION * delta
+			inputV * MAX_SPEED, ACCELERATION * delta
 		)
 	else:
 		velocity = velocity.move_toward(
@@ -60,6 +63,9 @@ func _physics_process(delta: float) -> void:
 
 	if Input.is_action_just_pressed("primaryFire"):
 		shoot()
+	
+	if Input.is_action_just_pressed("reload"):
+		reload()
 
 
 	updateFiringLine()
@@ -83,11 +89,7 @@ func shoot() -> void:
 	if not liveAmmo:
 		if not reserveAmmo:
 			return
-		animationPlayer.play("reload")
-		shootCD = true
-		reserveAmmo -= MAX_LIVE_AMMO
-		liveAmmo = MAX_LIVE_AMMO
-		updateAmmoLabel()
+		reload()
 		return
 
 	animationPlayer.play("shoot")
@@ -100,8 +102,25 @@ func shoot() -> void:
 		return
 	var collider: Node2D = firingRayCast.get_collider()
 
-	if collider.is_in_group("enemy"):
-		collider.call("attackReceiver", 100)
+	if not collider.is_in_group("enemy"):
+		return
+
+	var hitDistance: int = int(firingRayCast.global_position.distance_to(
+		firingRayCast.get_collision_point()
+	))
+
+	@warning_ignore("integer_division")
+	collider.call("attackReceiver", max(0, 100 - 10 * (max(0, hitDistance - 200) / 100)))
+
+
+func reload() -> void:
+	if liveAmmo == MAX_LIVE_AMMO:
+		return
+
+	reserveAmmo -= MAX_LIVE_AMMO - liveAmmo
+	liveAmmo = MAX_LIVE_AMMO
+	animationPlayer.play("reload")
+	shootCD = true
 
 
 # Handlers ==============================
@@ -120,6 +139,7 @@ func deathHandler() -> void:
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	shootCD = false
+	updateAmmoLabel()
 
 
 func _on_pickup_area_body_entered(body: Node2D) -> void:
