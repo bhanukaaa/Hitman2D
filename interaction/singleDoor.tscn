@@ -131,5 +131,6 @@ occluder = ExtResource("3_dtw5h")
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="StaticBody"]
 volume_db = -8.0
+attenuation = 3.73213
 
 [connection signal="animation_finished" from="StaticBody/AnimationPlayer" to="StaticBody" method="_on_animation_player_animation_finished"]

@@ -1,6 +1,7 @@
 extends CharacterBody2D
 
 @export var ammoLabel: Label
+@export var healthBar: TextureProgressBar
 
 @onready var interactionRayCast: RayCast2D = $InteractionRayCast
 @onready var firingRayCast: RayCast2D = $FiringRayCast
@@ -27,13 +28,16 @@ var shootCD: bool = false
 
 func _ready() -> void:
 	assert(ammoLabel != null, "Player Export Variable AmmoLabel - Not Set")
-	audioListener.make_current()
+	assert(healthBar != null, "Player Export Variable HealthBar - Not Set")
 	updateAmmoLabel()
 
 
 # Updaters ==============================
 
 func _physics_process(delta: float) -> void:
+	if GameManager.isGamePaused():
+		return
+
 	# movement
 	var inputV: Vector2 = Vector2(
 		Input.get_axis("moveLeft", "moveRight"),
@@ -116,6 +120,9 @@ func shoot() -> void:
 func reload() -> void:
 	if liveAmmo == MAX_LIVE_AMMO:
 		return
+	
+	if reserveAmmo == 0:
+		return
 
 	reserveAmmo -= MAX_LIVE_AMMO - liveAmmo
 	liveAmmo = MAX_LIVE_AMMO
@@ -127,13 +134,13 @@ func reload() -> void:
 
 func attackReceiver(dmg: int) -> void:
 	health -= dmg
+	updateHealthBar()
 	if health <= 0:
 		deathHandler()
 
 
 func deathHandler() -> void:
-	pass
-
+	GameManager.toMainMenu()
 
 # Signals ===============================
 
@@ -158,6 +165,10 @@ func addAmmo(count: int) -> void:
 
 func updateAmmoLabel() -> void:
 	ammoLabel.text = str(liveAmmo) + " / " + str(reserveAmmo)
+
+
+func updateHealthBar() -> void:
+	healthBar.value = health
 
 
 func updateFiringLine() -> void:

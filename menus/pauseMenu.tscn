@@ -1,0 +1,95 @@
+[gd_scene load_steps=6 format=3 uid="uid://cyxjiycuqoqy2"]
+
+[ext_resource type="Script" uid="uid://bju5gsbnofuur" path="res://menus/pauseMenu.gd" id="1_h3h53"]
+
+[sub_resource type="Gradient" id="Gradient_7jktm"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.0901961, 0.0901961, 0.0901961, 0.776471)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ryrav"]
+gradient = SubResource("Gradient_7jktm")
+
+[sub_resource type="Gradient" id="Gradient_eow3j"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.390625, 0.390625, 0.390625, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_j5wjh"]
+gradient = SubResource("Gradient_eow3j")
+
+[node name="PauseMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1921.0
+offset_bottom = 1080.0
+script = ExtResource("1_h3h53")
+
+[node name="BackgroundDim" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = SubResource("GradientTexture1D_ryrav")
+
+[node name="MenuContainer" type="TextureRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -346.5
+offset_top = -317.5
+offset_right = 346.5
+offset_bottom = 317.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture1D_j5wjh")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MenuContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -196.0
+offset_top = -193.0
+offset_right = 196.0
+offset_bottom = 193.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="MarginContainer1" type="MarginContainer" parent="MenuContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Resume" type="Button" parent="MenuContainer/VBoxContainer/MarginContainer1"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Resume"
+icon_alignment = 1
+
+[node name="MarginContainer2" type="MarginContainer" parent="MenuContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MainMenu" type="Button" parent="MenuContainer/VBoxContainer/MarginContainer2"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Main Menu"
+icon_alignment = 1
+
+[node name="MarginContainer3" type="MarginContainer" parent="MenuContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Quit" type="Button" parent="MenuContainer/VBoxContainer/MarginContainer3"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 40
+text = "Quit"
+icon_alignment = 1
+
+[connection signal="pressed" from="MenuContainer/VBoxContainer/MarginContainer1/Resume" to="." method="_on_resume_pressed"]
+[connection signal="pressed" from="MenuContainer/VBoxContainer/MarginContainer2/MainMenu" to="." method="_on_main_menu_pressed"]
+[connection signal="pressed" from="MenuContainer/VBoxContainer/MarginContainer3/Quit" to="." method="_on_quit_pressed"]

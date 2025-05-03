@@ -161,6 +161,7 @@ libraries = {
 }
 
 [node name="AudioListener" type="AudioListener2D" parent="."]
+current = true
 
 [node name="PickupArea" type="Area2D" parent="."]
 collision_layer = 0

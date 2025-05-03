@@ -11,20 +11,25 @@ enum states {
 }
 
 const MAX_SPEED: int = 200
+const APPROACH_SPEED: int = 30
 const STRAFE_SPEED: int = 100
 const WANDER_ACCEL: int = 250
 const ENGAGE_ACCEL: int = 500
 const DECELERATION: int = 500
 const ROTATION_SPEED: int = 7
+const SHOOT_COOLDOWN: int = 50
 
 var stateTimer: int = 10
 var currState: states = states.IDLE
 var currPOI: Vector2 = Vector2(0, 0)
 var playerInArea: bool = false
 var playerInFOV: bool = false
+
 var strafeDirection: int = 1
+var aimingAtTimer: int = SHOOT_COOLDOWN
 
 var health: int = 100
+var alive: bool = true
 
 
 # Initialization ========================
@@ -37,6 +42,12 @@ func _ready() -> void:
 # Updaters ==============================
 
 func _physics_process(delta: float) -> void:
+	if GameManager.isGamePaused():
+		return
+
+	if not alive:
+		return
+
 	match currState:
 		states.IDLE:
 			velocity = velocity.move_toward(Vector2(0, 0), DECELERATION * delta)
@@ -55,8 +66,9 @@ func _physics_process(delta: float) -> void:
 				currState = states.IDLE
 
 		states.AWARE:
-			velocity = velocity.move_toward(Vector2(0, 0), DECELERATION * delta)
 			rotation = rotate_toward(rotation, position.angle_to_point(currPOI), ROTATION_SPEED * delta)
+			var toPlayer: Vector2 = (currPOI - global_position).normalized()
+			velocity = velocity.move_toward(toPlayer * APPROACH_SPEED, ENGAGE_ACCEL * delta)
 
 			if stateTimer == 0:
 				stateTimer = randi_range(100, 400)
@@ -66,13 +78,28 @@ func _physics_process(delta: float) -> void:
 			if stateTimer == 0:
 				stateTimer = 30
 				strafeDirection *= -1
+
 			var toPlayer: Vector2 = (currPOI - global_position).normalized()
 			var perp: Vector2 = Vector2(-toPlayer.y, toPlayer.x)
+			if position.distance_to(currPOI) < 300:
+				toPlayer = Vector2(0, 0) # keep distance from target
+
 			var moveDir: Vector2 = (toPlayer + perp * strafeDirection).normalized()
 			var targetVelocity: Vector2 = moveDir * STRAFE_SPEED
-
 			velocity = velocity.move_toward(targetVelocity, ENGAGE_ACCEL * delta)
-			rotation = rotate_toward(rotation, position.angle_to_point(currPOI), ROTATION_SPEED * delta)
+
+			var angleToPlayer: float = position.angle_to_point(currPOI)
+			if abs(angle_difference(rotation, angleToPlayer)) <= 0.01:
+				aimingAtTimer -= 1
+			else:
+				aimingAtTimer = SHOOT_COOLDOWN
+
+			rotation = rotate_toward(rotation, angleToPlayer, ROTATION_SPEED * delta)
+
+			if aimingAtTimer == 0:
+				animationPlayer.play("shoot")
+				aimingAtTimer = SHOOT_COOLDOWN
+
 			if not playerInFOV:
 				currState = states.AWARE
 				stateTimer = 500
@@ -83,6 +110,11 @@ func _physics_process(delta: float) -> void:
 		checkFOV()
 
 	move_and_slide()
+
+
+func shoot() -> void:
+	if randi_range(0, 1) == 0:
+		playerReference.attackReceiver(20)
 
 
 func randomPOI() -> bool:
@@ -132,6 +164,7 @@ func attackReceiver(dmg: int) -> void:
 
 
 func deathHandler() -> void:
+	alive = false
 	var drop: Node2D = load("res://drops/ammoDrop.tscn").instantiate()
 	drop.position = position
 	drop.call("setCount", randi_range(1, 5))

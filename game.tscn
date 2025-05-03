@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://dsbog6gousg0y"]
+[gd_scene load_steps=13 format=3 uid="uid://dsbog6gousg0y"]
 
 [ext_resource type="PackedScene" uid="uid://gycgro8uh1lt" path="res://maps/map.tscn" id="1_e2o6t"]
+[ext_resource type="Script" uid="uid://beeb7l3glfiij" path="res://game.gd" id="1_fc0e3"]
 [ext_resource type="PackedScene" uid="uid://dqujghng2p3yl" path="res://player/player.tscn" id="2_feb5d"]
-[ext_resource type="PackedScene" uid="uid://bkiob1w3x5shb" path="res://enemy/baseEnemy.tscn" id="3_feb5d"]
+[ext_resource type="PackedScene" uid="uid://cyxjiycuqoqy2" path="res://menus/pauseMenu.tscn" id="4_fc0e3"]
 
 [sub_resource type="Gradient" id="Gradient_e2o6t"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
@@ -20,16 +21,34 @@ fill = 1
 fill_from = Vector2(0.5, 0.5)
 fill_to = Vector2(0.82906, 0.162393)
 
-[node name="Game" type="Node2D"]
+[sub_resource type="Gradient" id="Gradient_fc0e3"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_7jktm"]
+gradient = SubResource("Gradient_fc0e3")
+
+[sub_resource type="Gradient" id="Gradient_ryrav"]
+offsets = PackedFloat32Array(1)
+colors = PackedColorArray(1, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_eow3j"]
+gradient = SubResource("Gradient_ryrav")
+
+[node name="Game" type="Node2D" node_paths=PackedStringArray("playerReference", "mapReference", "pauseMenu")]
+script = ExtResource("1_fc0e3")
+playerReference = NodePath("Player")
+mapReference = NodePath("Map")
+pauseMenu = NodePath("HUD/PauseMenu")
 
 [node name="Map" parent="." instance=ExtResource("1_e2o6t")]
 
-[node name="Player" parent="." node_paths=PackedStringArray("ammoLabel") instance=ExtResource("2_feb5d")]
-position = Vector2(117, -1154)
+[node name="Player" parent="." node_paths=PackedStringArray("ammoLabel", "healthBar") instance=ExtResource("2_feb5d")]
+position = Vector2(168, -1219)
 ammoLabel = NodePath("../HUD/AmmoLabel")
+healthBar = NodePath("../HUD/HealthBar")
 
 [node name="Flashlight" type="PointLight2D" parent="Player"]
-visible = false
 position = Vector2(12, 9)
 rotation = -0.785398
 enabled = false
@@ -41,7 +60,6 @@ texture_scale = 10.0
 height = 30.0
 
 [node name="Spotlight" type="PointLight2D" parent="Player"]
-visible = false
 enabled = false
 energy = 0.32
 shadow_enabled = true
@@ -50,7 +68,7 @@ texture_scale = 5.0
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
 visible = false
-color = Color(0.015625, 0.015625, 0.015625, 1)
+color = Color(0.0273438, 0.0273438, 0.0273438, 1)
 
 [node name="HUD" type="CanvasLayer" parent="."]
 
@@ -62,20 +80,17 @@ offset_bottom = 1081.0
 theme_override_font_sizes/font_size = 48
 text = "00 / 00"
 
-[node name="BaseEnemy1" parent="." instance=ExtResource("3_feb5d")]
-position = Vector2(539, -1250)
+[node name="HealthBar" type="TextureProgressBar" parent="HUD"]
+offset_left = 9.0
+offset_top = 1036.0
+offset_right = 954.0
+offset_bottom = 1073.0
+value = 100.0
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture1D_7jktm")
+texture_progress = SubResource("GradientTexture1D_eow3j")
+tint_under = Color(1, 0, 0.14902, 0.67451)
+tint_progress = Color(0.176471, 1, 0, 0.666667)
 
-[node name="BaseEnemy2" parent="." instance=ExtResource("3_feb5d")]
-position = Vector2(996, -799)
-
-[node name="BaseEnemy3" parent="." instance=ExtResource("3_feb5d")]
-position = Vector2(1680, -1474)
-
-[node name="BaseEnemy4" parent="." instance=ExtResource("3_feb5d")]
-position = Vector2(784, -2106)
-
-[node name="BaseEnemy5" parent="." instance=ExtResource("3_feb5d")]
-position = Vector2(1521, -2304)
-
-[node name="BaseEnemy6" parent="." instance=ExtResource("3_feb5d")]
-position = Vector2(1890, -1854)
+[node name="PauseMenu" parent="HUD" instance=ExtResource("4_fc0e3")]
+visible = false
