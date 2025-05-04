@@ -60,5 +60,17 @@ text = "Hitman or Whatever"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Hint" type="Label" parent="."]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 868.0
+offset_right = 281.0
+offset_bottom = 1073.0
+theme_override_font_sizes/font_size = 35
+text = "WASD to Move
+Left Click to Fire
+R to Reload
+F to Interact"
+
 [connection signal="pressed" from="StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="QuitButton" to="." method="_on_quit_button_pressed"]

@@ -78,7 +78,6 @@ rotation = -1.01947
 [node name="BaseEnemy7" parent="Enemies" instance=ExtResource("5_p5exx")]
 position = Vector2(1082, -461)
 rotation = -2.03894
-scale = Vector2(1, 1)
 
 [node name="Timer" type="Timer" parent="."]
 wait_time = 2.0

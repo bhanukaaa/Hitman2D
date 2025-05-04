@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="TopDownShooter"
+config/name="Hitman2D"
 run/main_scene="uid://bqmdxt0yg0lrq"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
