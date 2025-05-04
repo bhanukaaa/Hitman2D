@@ -51,7 +51,6 @@ healthBar = NodePath("../HUD/HealthBar")
 [node name="Flashlight" type="PointLight2D" parent="Player"]
 position = Vector2(12, 9)
 rotation = -0.785398
-enabled = false
 energy = 0.79
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_feb5d")
@@ -60,14 +59,12 @@ texture_scale = 10.0
 height = 30.0
 
 [node name="Spotlight" type="PointLight2D" parent="Player"]
-enabled = false
 energy = 0.32
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_fc0e3")
 texture_scale = 5.0
 
 [node name="CanvasModulate" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.0273438, 0.0273438, 0.0273438, 1)
 
 [node name="HUD" type="CanvasLayer" parent="."]

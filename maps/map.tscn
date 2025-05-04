@@ -1,12 +1,15 @@
-[gd_scene load_steps=6 format=4 uid="uid://gycgro8uh1lt"]
+[gd_scene load_steps=7 format=4 uid="uid://gycgro8uh1lt"]
 
+[ext_resource type="Script" uid="uid://dy82eudwkbyhb" path="res://maps/map.gd" id="1_58o0d"]
 [ext_resource type="TileSet" uid="uid://c5fy50ui2dfjh" path="res://maps/cleared.tres" id="1_ers5l"]
 [ext_resource type="TileSet" uid="uid://bor7p7i53llru" path="res://maps/tileset.tres" id="1_urvl1"]
 [ext_resource type="PackedScene" uid="uid://c1o3qls0yq1kh" path="res://interaction/doubleDoor.tscn" id="3_c3pkw"]
 [ext_resource type="PackedScene" uid="uid://c84w14h88j8d5" path="res://interaction/singleDoor.tscn" id="4_d6q2c"]
 [ext_resource type="PackedScene" uid="uid://bkiob1w3x5shb" path="res://enemy/baseEnemy.tscn" id="5_p5exx"]
 
-[node name="Map" type="Node"]
+[node name="Map" type="Node" node_paths=PackedStringArray("enemyContainer")]
+script = ExtResource("1_58o0d")
+enemyContainer = NodePath("Enemies")
 
 [node name="Background" type="TileMapLayer" parent="."]
 z_index = -1
@@ -53,21 +56,33 @@ position = Vector2(539, -1250)
 rotation = -1.01947
 
 [node name="BaseEnemy2" parent="Enemies" instance=ExtResource("5_p5exx")]
-position = Vector2(996, -799)
+position = Vector2(1506, -1337)
 rotation = -0.148082
 
 [node name="BaseEnemy3" parent="Enemies" instance=ExtResource("5_p5exx")]
-position = Vector2(1680, -1474)
-rotation = 2.03838
+position = Vector2(1475, -723)
+rotation = -0.148082
 
 [node name="BaseEnemy4" parent="Enemies" instance=ExtResource("5_p5exx")]
-position = Vector2(784, -2106)
-rotation = -0.598631
+position = Vector2(693, -2079)
+rotation = -0.296164
 
 [node name="BaseEnemy5" parent="Enemies" instance=ExtResource("5_p5exx")]
-position = Vector2(1521, -2304)
-rotation = 2.5644
+position = Vector2(1575, -1842)
+rotation = -0.148082
 
 [node name="BaseEnemy6" parent="Enemies" instance=ExtResource("5_p5exx")]
-position = Vector2(1890, -1854)
-rotation = 0.985713
+position = Vector2(1857, -2274)
+rotation = -1.01947
+
+[node name="BaseEnemy7" parent="Enemies" instance=ExtResource("5_p5exx")]
+position = Vector2(1082, -461)
+rotation = -2.03894
+scale = Vector2(1, 1)
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[connection signal="child_exiting_tree" from="Enemies" to="." method="_on_enemies_child_exiting_tree"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

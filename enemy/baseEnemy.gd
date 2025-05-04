@@ -113,8 +113,8 @@ func _physics_process(delta: float) -> void:
 
 
 func shoot() -> void:
-	if randi_range(0, 1) == 0:
-		playerReference.attackReceiver(20)
+	# if randi_range(0, 1) == 0:
+	playerReference.attackReceiver(20)
 
 
 func randomPOI() -> bool:
@@ -168,7 +168,7 @@ func deathHandler() -> void:
 	var drop: Node2D = load("res://drops/ammoDrop.tscn").instantiate()
 	drop.position = position
 	drop.call("setCount", randi_range(1, 5))
-	get_parent().add_child(drop)
+	get_parent().get_parent().add_child(drop)
 	animationPlayer.play("death")
 
 
